@@ -1,0 +1,474 @@
+<%- include("../../partials/head") %>
+
+    <%- include("../../partials/bodyStartWithNavBar/") %>
+        <%- include("../../partials/sideNav") %>
+            <div id="layoutSidenav_content">
+                <main>
+                    <%- include("../../partials/alertMsg") %>
+                        <div class="page-header pb-10 page-header-dark bg-info">
+                            <input type="hidden" value="<%=value%>" id="valFilter">
+                            <div class="container-fluid">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <div class="page-header-content">
+                                            <h1 class="page-header-title fs-md-35 fs-20">
+                                                <div class="page-header-icon"><i class="fad fa-at text-white"></i></div>
+                                                <span class=" text-capitalize">
+                                                    Match Manager
+                                                </span>
+                                            </h1>
+                                            <div class="page-header-subtitle fs-md-19 fs-14 text-capitalize">
+                                                All upcoming matches
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto mb-md-0 mb-3">
+                                        <a href="/listMatches?type=Cricket" id="importMatchButton"
+                                            class="btn my-1 btn-sm rounded-pill btn-light font-weight-bold text-primary"
+                                            data-toggle="tooltip" title="Import Match From API"><i
+                                                class="fa fa-download" onclick="importMatchFromAPI()"></i>&nbsp;
+                                            Cricket Import</a>
+                                    </div>
+                                    <div class="col-auto mb-md-0 mb-3">
+                                        <a href="/importfootballData?type=Football" id="importMatchButton"
+                                            class="btn my-1 btn-sm rounded-pill btn-light font-weight-bold text-primary"
+                                            data-toggle="tooltip" title="Import Match From API"><i
+                                                class="fa fa-download" onclick="importMatchFromAPI()"></i>&nbsp;
+                                            Football Import</a>
+                                    </div>
+                                    <div class="col-auto mb-md-0 mb-3">
+                                        <a href="/importKabaddiData?type=Kabaddi" id="importMatchButton"
+                                            class="btn my-1 btn-sm rounded-pill btn-light font-weight-bold text-primary"
+                                            data-toggle="tooltip" title="Import Match From API"><i
+                                                class="fa fa-download" onclick="importMatchFromAPI()"></i>&nbsp;
+                                            Kabaddi Import</a>
+                                    </div>
+                                    <div class="col-auto mb-md-0 mb-3">
+                                        <a href="/importBasketballData?type=Basketball" id="importMatchButton"
+                                            class="btn my-1 btn-sm rounded-pill btn-light font-weight-bold text-primary"
+                                            data-toggle="tooltip" title="Import Match From API"><i
+                                                class="fa fa-download" onclick="importMatchFromAPI()"></i>&nbsp;
+                                            Basketball Import</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-fluid mt-n10">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card mb-3">
+                                        <div class="card-heading p-3">
+                                            <!-- start viewallmatches filtring -->
+
+                                            <form method="GET" action="/view_AllUpcomingMatches" accept-charset="UTF-8"
+                                                id="sf">
+
+
+                                                <!-- end viewallmatches filtring -->
+                                                <!-- <form method="GET" action="/view-AllMatches" accept-charset="UTF-8"> -->
+                                                <div class="sbp-preview position-relative">
+                                                    <div class="form-group">
+                                                        <div class="row mx-0">
+
+
+                                                            <div class="col-md">
+                                                                <div class="form-group my-3">
+                                                                    <label for="Select Series" class="text-bold">Select
+                                                                        Series</label>
+                                                                    <select class="form-control selectpicker show-tick"
+                                                                        data-container="body" data-live-search="true"
+                                                                        title="Select Series" data-hide-disabled="true"
+                                                                        name="seriesId" id="fullseries">
+
+                                                                    </select>
+
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-auto mt-md-5 mt-0 text-right">
+                                                                <button class="btn btn-sm btn-success text-uppercase"
+                                                                    type="submit"><i
+                                                                        class="far fa-check-circle"></i>&nbsp;Submit</button>
+                                                                <a href="/view_AllUpcomingMatches"
+                                                                    class="btn btn-sm btn-warning text-uppercase"><i
+                                                                        class="far fa-undo"></i>&nbsp; Reset</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mb-4">
+                                <div class="card-header">Matches</div>
+                                <div class="card-body">
+                                    <div class="col-md-6">
+                                        <div class="form-group my-3 fs-13" id="fantasy_type">
+                                            <label class="label-control text-bold">Fantasy Type*</label><br>
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input type="radio" name="fantasy_type" value="Cricket"
+                                                    id="customRadio13" class="custom-control-input" checked />
+                                                <label class="custom-control-label" for="customRadio13"
+                                                    onchange="getChackedValue()">Cricket</label>
+                                            </div>
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input type="radio" name="fantasy_type" value="Football"
+                                                    id="customRadio14" class="custom-control-input" />
+                                                <label class="custom-control-label" for="customRadio14"
+                                                    onchange="getChackedValue()">Football</label>
+                                            </div>
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input type="radio" name="fantasy_type" value="Kabaddi"
+                                                    id="customRadio15" class="custom-control-input" />
+                                                <label class="custom-control-label" for="customRadio15"
+                                                    onchange="getChackedValue()">Kabaddi</label>
+                                            </div>
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input type="radio" name="fantasy_type" value="Basketball"
+                                                    id="customRadio12" class="custom-control-input" />
+                                                <label class="custom-control-label" for="customRadio12"
+                                                    onchange="getChackedValue()">Basketball</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="datatable table-responsive">
+                                        <table class="table table-bordered table-hover last-btn-center text-nowrap"
+                                            id="dataTablematch" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">Sno.</th>
+                                                    <th class="text-center">Match Type</th>
+                                                    <th class="text-center">Match</th>
+                                                    <th class="text-center">Format</th>
+                                                    <th class="text-center">Match Time</th>
+                                                    <th class="text-center">Order</th>
+                                                    <th class="text-center">Squad Available</th>
+                                                    <th class="text-center">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th class="text-center">Sno.</th>
+                                                    <th class="text-center">Match Type</th>
+                                                    <th class="text-center">Match</th>
+                                                    <th class="text-center">Format</th>
+                                                    <th class="text-center">Match Time</th>
+                                                    <th class="text-center">Order</th>
+                                                    <th class="text-center">Squad Available</th>
+                                                    <th class="text-center">Action</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- <script >
+
+                                const populateSelectWithSeries = async () => {
+                                    let Value = document.getElementById("valFilter").value?document.getElementById("valFilter").value:"Cricket"
+                                    console.log(Value,"kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
+                                    try {
+                                        const response = await fetch('/getSeries?fantasy_type=');
+                                        const seriesData = await response.json();
+console.log(seriesData)
+                                        const selectElement = document.getElementById('fullseries');
+                                        selectElement.innerHTML = '';
+
+                                        const defaultOption = document.createElement('option');
+                                        defaultOption.value = '';
+                                        defaultOption.disabled = true;
+                                        defaultOption.textContent = 'Select Series';
+                                        selectElement.appendChild(defaultOption);
+                                        let h = ``
+
+                                        for (let key of seriesData.data) {
+                                            const option = document.createElement('option');
+                                            option.value = key._id;
+                                            option.textContent = key.name;
+
+                                            // if (matchId) {
+                                            //     option.selected = seriesId == key._id;
+                                            // }
+
+                                            selectElement.appendChild(option);
+                                      
+                                        }
+
+                                        // $('.selectpicker').selectpicker('refresh');
+                                    } catch (error) {
+                                        console.error(error);
+                                    }
+                                };
+
+                                populateSelectWithSeries();
+
+                                // Get the input element with the name attribute "fantasy_type"
+// const fantasyTypeInput = document.querySelector('input[name="fantasy_type"]');
+
+// // Add an event listener for the "change" event
+// fantasyTypeInput.addEventListener('change', async function () {
+//   // Your asynchronous code here
+//   let Value = document.getElementById("valFilter").value?document.getElementById("valFilter").value:"Cricket"
+//                                     console.log(Value,"kkkkkkkkkk+++++++++++==============++++++++++++++kkkkkkkkkkkkkkkkkkkkkkkkk")
+// });
+
+const f = ()=>{
+      let Value = document.getElementById("valFilter").value?document.getElementById("valFilter").value:"Cricket"
+      const fantasyTypeInput = document.querySelector('input[name="fantasy_type"]:checked');
+      console.log(Value,"kkkkkkkkkk+++++++++++==============++++++++++++++kkkkkkkkkkkkkkkkkkkkkkkkk",fantasyTypeInput)
+
+}
+
+
+                            </script> -->
+
+                            <script type="text/javascript">
+
+                                let Value = "Cricket";
+
+                                const valFilterInput = document.getElementById("valFilter");
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    var radios = document.getElementsByName('fantasy_type');
+
+                                    radios.forEach(function (radio) {
+                                        radio.addEventListener('change', function () {
+                                            if (this.checked) {
+                                                Value = this.value;
+                                                let url = `/listMatches?type=${encodeURIComponent(this.value)}`;
+                                                document.getElementById('importMatchButton').setAttribute('href', url);
+                                                populateSelectWithSeries();
+                                                updateDataTable();
+                                            }
+                                        });
+                                    });
+                                });
+
+
+
+                                function populateSelectWithSeries() {
+                                    try {
+                                        $.ajax({
+                                            url: `/getSeries?fantasy_type=${Value}`,
+                                            method: "GET",
+                                            dataType: "json",
+                                        })
+                                            .done(function (response) {
+                                                const selectElement = $("#fullseries");
+                                                selectElement.empty();
+
+                                                const defaultOption = $("<option>")
+                                                    .attr("value", "")
+                                                    .prop("disabled", true)
+                                                    .text("Select Series");
+                                                selectElement.append(defaultOption);
+
+                                                $.each(response.data, function (index, key) {
+                                                    const option = $("<option>")
+                                                        .attr("value", key._id)
+                                                        .text(key.name);
+                                                    selectElement.append(option);
+                                                });
+                                                $('.selectpicker').selectpicker('refresh');
+                                                const form = $("#sf");
+
+                                                const newAction = `/view_AllUpcomingMatches?value=${Value}`;
+                                                form.attr("action", newAction);
+
+                                            })
+                                            .fail(function (error) {
+                                                console.error(error);
+                                            });
+                                    } catch (error) {
+                                        console.log(error);
+                                    }
+                                }
+
+                                function updateDataTable() {
+                                    $.fn.dataTable.ext.errMode = 'none';
+                                    const table = $('#dataTablematch').DataTable();
+                                    table.ajax.url(`/view_AllUpcomingMatches-data-table/?val=${Value}`).load();
+                                }
+
+                                populateSelectWithSeries();
+
+
+                                // Initialize the DataTable when the page loads
+                                // $(document).ready(function () {
+                                //   $.fn.dataTable.ext.errMode = 'none';
+                                //   const table = $('#dataTablematch').DataTable();
+
+                                //   // Attach a change event handler to the select field with the name "seriesId"
+
+                                // });
+
+
+
+                                // $('select[name="seriesId"]').change(function () {
+                                //     const selectedValue = $(this).val();
+                                //     console.log("Selected Value: " + selectedValue);
+
+                                //     $.fn.dataTable.ext.errMode = 'none';
+                                //     const table = $('#dataTablematch').DataTable()
+                                //     table.ajax.url(/view_AllUpcomingMatches-data-table/?val=${Value}&seriesId=${selectedValue});
+                                //     table.ajax.reload();
+                                // });
+
+
+                                $("input[name=fantasy_type]").change(async function () {
+
+
+
+
+                                    if ($('input[name=fantasy_type]:checked').val() == "Cricket") {
+                                        Value = "Cricket"
+
+                                        populateSelectWithSeries();
+
+                                        console.log("value" + Value)
+                                        //$(document).ready(
+                                        function abc() {
+                                            console.log("value in ajax" + Value)
+                                            $.fn.dataTable.ext.errMode = 'none';
+                                            const table = $('#dataTablematch').DataTable()
+                                            table.ajax.url(`/view_AllUpcomingMatches-data-table/?val=${Value}`)
+                                            table.ajax.reload()
+                                            // $('#dataTablematch').DataTable({
+                                            //     searching: true,
+                                            //     language: {
+                                            //         zeroRecords: "No records to display",
+                                            //     },
+                                            //     ajax: {
+                                            //         url: /view_AllUpcomingMatches-data-table/?val=${Value},
+                                            //         type: 'post',
+                                            //         dataSrc: 'data',
+                                            //         error: function () {
+                                            //             console.log(error)
+                                            //         }
+                                            //     },
+                                            //     "lengthMenu": [
+                                            //         [10, 25, 50, 100, 1000, 10000],
+                                            //         [10, 25, 50, 100, 1000, 10000]
+                                            //     ],
+                                            //     columns: [{
+                                            //         data: "count"
+                                            //     },
+                                            //     {
+                                            //         data:"Match Type"
+                                            //     }, 
+
+                                            //     {
+                                            //         data: "match"
+                                            //     }, 
+
+                                            //     {
+                                            //         data: "start_date"
+                                            //     }, {
+                                            //         data: "squadstatus"
+                                            //     }, {
+                                            //         data: "Actions", orderable: false
+                                            //     },]
+                                            // })
+                                        }
+                                        abc();//ss);
+
+                                    }
+                                })
+
+
+
+
+
+
+
+
+
+
+
+
+                                // anaylysing 
+                                $(document).ready(function () {
+                                    console.log("value in ajax" + Value)
+                                    $.fn.dataTable.ext.errMode = 'none';
+                                    $('#dataTablematch').DataTable({
+                                        searching: true,
+                                        language: {
+                                            zeroRecords: "No records to display",
+                                        },
+                                        ajax: {
+                                            url: `/view_AllUpcomingMatches-data-table/?val=${Value}`,
+                                            type: 'post',
+                                            dataSrc: 'data',
+                                            error: function (error) {
+                                                console.log(error)
+                                            }
+                                        },
+                                        "lengthMenu": [
+                                            [10, 25, 50, 100, 1000, 10000],
+                                            [10, 25, 50, 100, 1000, 10000]
+                                        ],
+                                        columns: [{
+                                            data: "count"
+                                        },
+                                        {
+                                            data: "Match Type"
+                                        },
+
+                                        {
+                                            data: "match"
+                                        },
+                                        {
+                                            data: "Format"
+                                        },
+
+                                        {
+                                            data: "start_date"
+                                        },
+                                        {
+                                            data: "match_order"
+                                        },
+                                        {
+                                            data: "squadstatus"
+                                        }, {
+                                            data: "Actions", orderable: false
+                                        },
+                                        ]
+                                    })
+                                });
+
+
+
+
+
+
+
+                            </script>
+                        </div>
+                </main>
+                <%- include("../../partials/footer") %>
+
+                    <script>
+                        $(window).on('load', function () {
+
+                            $('#preloader_admin').hide();
+
+                        })
+                    </script>
+                    <script>
+                        $(document).ready(function () {
+
+                            if ($('#accordionSidenavPages a').hasClass('active')) {
+                                $('#accordionSidenavPages a.active').parent().parent().prev('a').removeClass('collapsed');
+                                $('#accordionSidenavPages a.active').parent().parent().addClass('show');
+                                // console.log(id);
+                            } else {
+                                $('#takeonebar').addClass('slamdown');
+                            }
+                        });
+
+                    </script>

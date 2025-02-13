@@ -1,0 +1,178 @@
+<%- include("../../partials/head") %> <%-
+include("../../partials/bodyStartWithNavBar") %> <%-
+include("../../partials/sideNav") %>
+<div id="layoutSidenav_content">
+  <main>
+    <%- include("../../partials/alertMsg") %>
+    <div class="page-header pb-10 page-header-dark bg-info">
+      <div class="container-fluid">
+        <div class="row align-items-center">
+          <div class="col">
+            <div class="page-header-content">
+              <h1 class="page-header-title fs-md-35 fs-20">
+                <div class="page-header-icon">
+                  <i class="fad fa-at text-white"></i>
+                </div>
+                <span class="text-capitalize"> Ticket Manager </span>
+              </h1>
+              <div class="page-header-subtitle fs-md-19 fs-14 text-capitalize">
+                Edit Ticket
+              </div>
+            </div>
+          </div>
+          <div class="col-auto mb-md-0 mb-3">
+            <a
+              href="/view_Ticket"
+              class="btn btn-sm btn-light font-weight-bold text-uppercase text-primary float-right"
+              data-toggle="tooltip"
+              title="View All Ticket"
+              ><i class="fad fa-eye"></i>&nbsp; View</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid mt-n10">
+      <div class="card">
+        <div class="card-header">Edit Ticket</div>
+        <form
+          class="card-body"
+          action="/edit-ticket-data?id=<%=data._id %>"
+          method="post"
+        >
+          <div class="sbp-preview">
+            <div class="sbp-preview-content">
+              <div class="row mx-0">
+                <div class="col-12">
+                  <div class="form-group my-3">
+                    <label for="username">subject*</label>
+
+                    <% if(data.subject){%>
+                    <input
+                      name="subject"
+                      value="<%=data.subject %>"
+                      class="form-control form-control-solid"
+                      type="text"
+                      required=""
+                      id="first-name"
+                    />
+
+                    <% }else{%>
+                    <input
+                      name="subject"
+                      class="form-control form-control-solid"
+                      type="text"
+                      placeholder="Please subject"
+                      required=""
+                      id="first-name"
+                    />
+                    <% }%>
+                  </div>
+                </div>
+                
+                <div class="col-6">
+                  <div class="form-group my-3">
+                    <label for="mobile">reply*</label>
+
+                    <% if(data.reply){%>
+                    <input
+                      value="<%=data.reply %>"
+                      name="reply"
+                      class="form-control form-control-solid"
+                      type="text"
+                      placeholder="Please Enter reply"
+                      id="reply"
+                    />
+
+                    <% }else{%>
+                    <input
+                      name="reply"
+                      class="form-control form-control-solid"
+                      type="text"
+                      placeholder="Please Enter reply"
+                      id="reply"
+                    />
+                    <% }%>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group my-3">
+                    <label for="Status" class="control-label text-bold ">Status</label>
+                    <select class="form-control form-control-solid input-sm p-1 selectpicker show-tick"
+                      data-container="body" data-live-search="true" title="Select Status"
+                      data-hide-disabled="true" name="status" id="status" >
+                      <option value="">Select Status</option>
+                      <% console.log(data.status) %>
+                      <option value="pending" <%= data.status=="pending" ? "selected" : "" %> >Pending
+                      </option>
+                      <option value="progress" <%= data.status=="progress" ? "selected" : "" %>
+                        >Progress</option>
+                      <option value="complete" <%= data.status=="complete" ? "selected" : "" %>
+                        >Completed</option>
+                    </select>
+
+                  </div>
+                </div>
+               
+                
+
+                <div class="col-12 text-right mt-4 mb-2">
+                  <button
+                    class="btn btn-sm btn-success text-uppercase"
+                    type="submit"
+                  >
+                    <i class="far fa-check-circle"></i>&nbsp;Submit
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+  <%- include("../../partials/footer") %>
+
+  <script>
+    $(window).on("load", function () {
+      $("#preloader_admin").hide();
+    });
+  </script>
+
+  <script>
+    $(document).ready(function () {
+      if ($("#accordionSidenavPages a").hasClass("active")) {
+        $("#accordionSidenavPages a.active")
+          .parent()
+          .parent()
+          .prev("a")
+          .removeClass("collapsed");
+        $("#accordionSidenavPages a.active").parent().parent().addClass("show");
+        // console.log(id);
+      } else {
+        $("#takeonebar").addClass("slamdown");
+      }
+    });
+  </script>
+
+  <script>
+     $(function() {
+            $('#refer_code').keyup(function() {
+                this.value = this.value.toLocaleUpperCase();
+            });
+        });
+    function isNumberKey(evt) {
+      //var e = evt || window.event;
+
+      var charCode = evt.which ? evt.which : evt.keyCode;
+      if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+        false;
+      else {
+        var itemdecimal = evt.srcElement.value.split(".");
+        if (itemdecimal.length > 1 && charCode == 46) false;
+
+        true;
+      }
+    }
+  </script>
+</div>

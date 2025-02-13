@@ -1,0 +1,383 @@
+<%- include("../../partials/head") %> <%- include("../../partials/bodyStartWithNavBar/") %> <%-
+      include("../../partials/sideNav") %>
+      <div id="layoutSidenav_content">
+        <main>
+          <%- include("../../partials/alertMsg") %>
+            <div class="page-header pb-10 page-header-dark bg-info">
+              <div class="container-fluid">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <div class="page-header-content">
+                      <h1 class="page-header-title fs-md-35 fs-20">
+                        <div class="page-header-icon">
+                          <i class="fad fa-at text-white"></i>
+                        </div>
+                        <span class="text-capitalize"> GST Manager </span>
+                      </h1>
+                      <div class="page-header-subtitle fs-md-19 fs-14 text-capitalize">
+                        View All GST
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="container-fluid mt-n10">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="card mb-3">
+                    <div class="card-heading p-3">
+                      <form method="get" action="/gst_page">
+                        <div class="sbp-preview position-relative">
+                          <div class="form-group">
+                            <div class="row mx-0">
+                              <div class="col-md-4">
+                                <div class="form-group my-3">
+                                  <label for="GST Name" class="text-bold">User Name</label>
+                                  <% if(queryData.name) {%>
+                                    <input value="<%=queryData.name %>" id="name1"
+                                      class="form-control form-control-solid" name="name" type="text" />
+                                    <%}else{ %>
+                                      <input value="" placeholder="Search By Name" id="name1"
+                                        class="form-control form-control-solid" name="name" type="text" />
+                                      <% }%>
+                                </div>
+                              </div>
+                              <div class="col-md-4">
+                                <div class="form-group my-3">
+                                  <label for="Email" class="text-bold">Email</label>
+                                  <% if(queryData.email) {%>
+                                    <input value="<%=queryData.email %>" id="email"
+                                      class="form-control form-control-solid" name="email" type="text" />
+                                    <%}else{ %>
+                                      <input value="" placeholder="Search By Email" id="email"
+                                        class="form-control form-control-solid" name="email" type="text" />
+                                      <% }%>
+                                </div>
+                              </div>
+                              <div class="col-md-4">
+                                <div class="form-group my-3">
+                                  <label for="Mobile" class="text-bold">Mobile</label>
+                                  <% if(queryData.mobile) {%>
+                                    <input name="mobile" class="form-control form-control-solid" type="text"
+                                      value="<%=queryData.mobile %>" placeholder="Search By Mobile" id="mobile"
+                                      oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                      maxlength="10" pattern="[1-9]{1}[0-9]{9}" />
+                                    <%}else{ %>
+                                      <input name="mobile" class="form-control form-control-solid" type="text"
+                                        placeholder="Search By Mobile" id="mobile"
+                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                        maxlength="10" pattern="[1-9]{1}[0-9]{9}" />
+                                </div>
+                                <% }%>
+                              </div>
+                              <div class="col-md-4 col-12">
+                                <div class="form-group my-3">
+                                  <label for="example-datetime-local-input">Start Date*</label>
+                                  <input class="form-control form-control-solid" type="text"
+                                    placeholder="Enter Start Date" id="example-datetime-local-input" autocomplete="off"
+                                    value="<%= queryData.startdate %> " name="startdate" required>
+                                </div>
+                              </div>
+                              <div class="col-md-4 col-12">
+                                <div class="form-group my-3">
+                                  <label for="example-datetime-local-input2">End Date*</label>
+                                  <input class="form-control form-control-solid" type="text"
+                                    placeholder="Enter End Date" value="<%=  queryData.enddate%>" name="enddate"
+                                    autocomplete="off" id="example-datetime-local-input2" required>
+                                </div>
+                              </div>
+
+                              <div class="col-12 text-right mt-4 mb-2">
+                                <button type="submit" class="btn btn-sm btn-success text-uppercase">
+                                  <i class="far fa-check-circle"></i>&nbsp; Submit
+                                </button>
+                                <a href="/view_GST" class="btn btn-sm btn-warning text-uppercase"><i
+                                    class="far fa-undo"></i>&nbsp; Reset</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card mb-4">
+                <div class="card-header">View All GST</div>
+                <div class="card-body">
+                  <link rel="stylesheet" type="text/css"
+                    href="https://cdn.datatables.net/v/dt/dt-1.10.16/r-2.2.1/datatables.min.css" />
+                  <div class="datatable table-responsive">
+                    <table class="table table-bordered table-striped table-hover text-nowrap" id="allmatches_datatable"
+                      width="100%" cellspacing="0">
+                      <thead>
+                        <tr>
+                          <th class="text-capitalize">S No.</th>
+                          <th class="text-capitalize">name</th>
+                          <th class="text-capitalize">mobile</th>
+                          <th class="text-capitalize">email</th>
+                          <th class="text-capitalize">txnid</th>
+                          <th class="text-capitalize">OrderId</th>
+                          <th class="text-capitalize">amount</th>
+                          <th class="text-capitalize">28% GST Amount</th>
+                          <th class="text-capitalize">userId</th>
+                          <th class="text-capitalize">status</th>
+                        </tr>
+                      </thead>
+                      <tfoot>
+                        <tr>
+                          <th class="text-capitalize">S No.</th>
+                          <th class="text-capitalize">name</th>
+                          <th class="text-capitalize">mobile</th>
+                          <th class="text-capitalize">email</th>
+                          <th class="text-capitalize">txnid</th>
+                          <th class="text-capitalize">OrderI</th>
+                          <th class="text-capitalize">amount</th>
+                          <th class="text-capitalize">28% GST Amount</th>
+                          <th class="text-capitalize">userId</th>
+                          <th class="text-capitalize">status</th>
+                        </tr>
+                      </tfoot>
+                      <tbody></tbody>
+                    </table>
+                  </div>
+                </div>a
+              </div>
+              <script type="text/javascript"
+                src="https://cdn.datatables.net/v/dt/dt-1.10.16/r-2.2.1/datatables.min.js"></script>
+
+              <script type="text/javascript">
+                $(document).ready(function () {
+                  $.fn.dataTable.ext.errMode = "none";
+
+                  var name = $("#name1").val();
+                  var email = $("#email").val();
+                  var mobile = $("#mobile").val();
+                  var startdate = $("#example-datetime-local-input").val();
+                  var enddate = $("#example-datetime-local-input2").val();
+
+                  $("#allmatches_datatable").DataTable({
+                    // 'bFilter':false,
+                    // "processing": true,
+                    // "serverSide": true,
+                    searching: false,
+                    language: {
+                      zeroRecords: "No records to display",
+                    },
+                    ajax: {
+                      url:
+                        "/gst_table_data?name=" +
+                        name +
+                        "&email=" +
+                        email +
+                        "&mobile=" +
+                        mobile +
+                        "&startdate=" +
+                        startdate +
+                        "&enddate=" +
+                        enddate
+
+
+                      ,
+                      dataType: "json",
+                      type: "POST",
+                    },
+                    lengthMenu: [
+                      [10, 25, 50, 100, 1000, 10000],
+                      [10, 25, 50, 100, 1000, 10000],
+                    ],
+                    columns: [
+                      { data: "count" },
+                      { data: "username" },
+                      { data: "mobile" },
+                      { data: "email" },
+                      { data: "txnid" },
+                      { data: "orderid" },
+                      { data: "amount" },
+                      { data: "getAmount" },
+                      { data: "userid" },
+                      { data: "status" },
+                    ],
+                    footerCallback: function (row, data, start, end, display) {
+                      var api = this.api();
+
+                      // Update the footer column
+                      $(api.column(7).footer()).html(`Totel GST = ${data[0]?.totelAmountofGST.toFixed(2) || 0}`); // Display total with 2 decimal places
+                    }
+                  });
+                });
+              </script>
+            </div>
+        </main>
+        <%- include("../../partials/footer") %>
+
+          <script>
+            $(window).on("load", function () {
+              $("#preloader_admin").hide();
+            });
+          </script>
+
+          <script>
+            $("#b1").click(function () {
+              const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                  confirmButton: "btn btn-sm btn-success",
+                  cancelButton: "btn btn-sm btn-danger",
+                },
+                buttonsStyling: false,
+              });
+
+              swalWithBootstrapButtons
+                .fire({
+                  title: "Are you sure?",
+                  text: "You won't be able to revert this!",
+                  icon: "success",
+                  showCancelButton: true,
+                  confirmButtonText: "Yes, delete it!",
+                  cancelButtonText: "No, cancel!",
+                  reverseButtons: true,
+                })
+                .then((result) => {
+                  if (result.isConfirmed) {
+                    swalWithBootstrapButtons.fire(
+                      "Deleted!",
+                      "Your file has been deleted.",
+                      "success"
+                    );
+                  } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                  ) {
+                    swalWithBootstrapButtons.fire(
+                      "Cancelled",
+                      "Your imaginary file is safe :)",
+                      "error"
+                    );
+                  }
+                });
+            });
+          </script>
+
+          <script>
+            $(document).ready(function () {
+              if ($("#accordionSidenavPages a").hasClass("active")) {
+                $("#accordionSidenavPages a.active")
+                  .parent()
+                  .parent()
+                  .prev("a")
+                  .removeClass("collapsed");
+                $("#accordionSidenavPages a.active").parent().parent().addClass("show");
+                // console.log(id);
+              } else {
+                $("#takeonebar").addClass("slamdown");
+              }
+            });
+          </script>
+          <script>
+            $("#sortable, #sortable2").sortable();
+          </script>
+          <script>
+            $(".alert").delay(3000).fadeOut();
+          </script>
+
+          <script type="text/javascript">
+            $.datetimepicker.setLocale("en");
+            $(".datetimepickerget").datetimepicker({
+              lang: "en",
+              formatDate: "d.m.Y",
+              step: 5,
+              startDate: new Date(),
+            });
+          </script>
+          <script type="text/javascript">
+            $(".datepicker").datepicker({
+              lang: "en",
+              formatDate: "d.m.Y",
+              step: 5,
+            });
+          </script>
+
+          <script>
+            function isNumberKey(evt) {
+              //var e = evt || window.event;
+
+              var charCode = evt.which ? evt.which : evt.keyCode;
+              if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+              else {
+                var itemdecimal = evt.srcElement.value.split(".");
+                if (itemdecimal.length > 1 && charCode == 46) return false;
+
+                return true;
+              }
+            }
+          </script>
+
+          <script>
+            function delete_sweet_alert(url, msg) {
+              // sweet alert
+              const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                  confirmButton: "btn btn-sm btn-success ml-2",
+                  cancelButton: "btn btn-sm btn-danger",
+                },
+                buttonsStyling: false,
+              });
+
+              swalWithBootstrapButtons
+                .fire({
+                  title: msg,
+                  text: "You won't be able to revert this!",
+                  icon: "success",
+                  showCancelButton: true,
+                  confirmButtonText: "Yes",
+                  cancelButtonText: "No",
+                  reverseButtons: true,
+                })
+                .then((result) => {
+                  if (result.isConfirmed) {
+                    swalWithBootstrapButtons.fire("", "Successfully Done", "success");
+
+                    window.location.href = url;
+                  } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                  ) {
+                    swalWithBootstrapButtons.fire(
+                      "Cancelled",
+                      "Cancelled successfully :)",
+                      "error"
+                    );
+                    return false;
+                  }
+                });
+            }
+          </script>
+          <script type="text/javascript">
+            $.datetimepicker.setLocale('en');
+            $('.datetimepickerget').datetimepicker({
+              lang: 'en',
+              formatDate: 'd.m.Y',
+              step: 5,
+              startDate: new Date()
+            });
+          </script>
+          <script type="text/javascript">
+            $('.datepicker').datepicker({
+              lang: 'en',
+              formatDate: 'd.m.Y',
+              step: 5,
+            });
+
+
+
+            jQuery(document).ready(function () {
+              'use strict';
+
+              jQuery('#example-datetime-local-input, #example-datetime-local-input2, #start_date, #end_date, #dob-date, #expire_date').datetimepicker();
+            });
+          </script>
+      </div>
